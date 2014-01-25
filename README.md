@@ -2,6 +2,20 @@ freshRand
 =========
 
 Generate true random numbers on Arduino and Energia. Planned support for 328 ,32u4,MSP430, and others.
+
+Tested:
+* Arduino Leonardo(should work on any atmega32u4 based board)
+
+Might work, untested:
+* MSP430(with energia)
+* atmega328
+* atmega328P
+* atmega168
+* atmega168P
+
+If you do any testing, be sure to drop me a line!
+
+
 Basic usage:
 
     #include "freshRand.h"
