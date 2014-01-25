@@ -8,8 +8,6 @@
 //However, you might be OK using freshRand(0) in applications involving human input, because the micros() value is
 //Fairly random when sampled an a random time. Y
 
-EntropyPool pool;
-
 
 void setup() {
   Serial.begin(9600);
