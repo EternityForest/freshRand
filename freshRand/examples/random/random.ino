@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
   //Repeatedly spew random numbers out the serial port.
-  Serial.write(freshRandom(24)); 
+  Serial.write(freshRand(24)); 
 }
 
 
