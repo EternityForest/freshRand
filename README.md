@@ -1,6 +1,11 @@
 freshRand
 =========
 
+DON'T ACTUALLY USE THIS. IT USUALLY WORKS BUT SOMETIMES DECIDES IT WANTS TO FAIL ALL THE TESTS. THIS IS IN DEVELOPMENT.
+
+
+
+
 Generate true random numbers on Arduino and Energia. Planned support for 328 ,32u4,MSP430, and others.
 
 Tested:
