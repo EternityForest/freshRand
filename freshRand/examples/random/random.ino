@@ -8,23 +8,16 @@
 //However, you might be OK using freshRand(0) in applications involving human input, because the micros() value is
 //Fairly random when sampled an a random time. Y
 
-//You can also create an entropy pool object with "EntropyPool pool;", and call pool.urandom() which returns one byte.
-//EntropyPool has a method seed(X) that mixes in X bytes of entropy into the state. The bytes are generated with strength 24.
-//EntropyPool class is an RC4 based entropy pool, so the numbers may or may not be cryptographically random, and likely are not.
-//EntropyPool will also consume over 258 bytes of RAM, and as such might not be workable or even compilable on some chips.
-
 EntropyPool pool;
 
 
 void setup() {
   Serial.begin(9600);
-  pool.seed(255);
 }
 
 void loop() {
   //Repeatedly spew random numbers out the serial port.
-  //Note that 8 is a VERY low number very close to the minimum. Use 255 for anything important, and 16-48 at least for games and stuff.
-  Serial.write(pool.urandom()); 
+  Serial.write(freshRandom(24)); 
 }
 
 
