@@ -1,20 +1,22 @@
 freshRand
 =========
 
-DON'T ACTUALLY USE THIS. IT USUALLY WORKS BUT SOMETIMES DECIDES IT WANTS TO FAIL ALL THE TESTS. THIS IS IN DEVELOPMENT.
+You probably shouldn't actually use this. The main bug has been fixed but the generation speed on my Duemilinove
+is only 1-2 bytes per second, so I haven't yet done comprehensive testing.
 
-
+The big advantage of this library is that you don't need to connect any external hardware or use the watchdog timer. The library uses a combination of several dozen temperature sensor readings from the internal sensor,
+garbage left on the stack found via uninitialized variables, the exact micros() value when the function is called, and the time in microseconds it takes to run the entropy distilling algorithm.
 
 
 Generate true random numbers on Arduino and Energia. Planned support for 328 ,32u4,MSP430, and others.
 
 Tested:
 * Arduino Leonardo(should work on any atmega32u4 based board)
+* atmega328P
 
 Might work, untested:
 * MSP430(with energia)
 * atmega328
-* atmega328P
 * atmega168
 * atmega168P
 
