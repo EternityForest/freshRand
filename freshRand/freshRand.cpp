@@ -40,7 +40,7 @@ unsigned char freshRand(unsigned char strength)
 #endif
 #endif
 
-  while((changes<strength) && (sames< strength))
+  while((changes<strength) || (sames< strength))
   {
     temp = (getTemperature() & 255);
 
@@ -67,6 +67,16 @@ unsigned char freshRand(unsigned char strength)
     entropy += 0x55;
   }
 
+  
+    //Once we have enough entropy, return the byte.
+#ifdef PURE
+#ifdef TMR0CNT
+  entropy ^= TMR0CNT;
+#else
+  entropy ^= micros()%255;
+#endif
+#endif
+
   //Once we have enough entropy, return the byte.
   return (entropy);
 #pragma GCC diagnostic pop
@@ -76,6 +86,10 @@ unsigned int getTemperature()
 {
 
 #ifdef  __AVR_ATmega32U4__
+unsigned char oldADCSRA = ADCSRA;
+unsigned char oldADMUX = ADMUX;
+unsigned char oldADCSRB = ADCSRB;
+
   //disable ADC...now new values can be written in MUX register
   ADCSRA &= ~(1 << ADEN);   
   // Set MUX to use on-chip temperature sensor
@@ -97,10 +111,10 @@ unsigned int getTemperature()
 
   delayMicroseconds(5);
 
-
-  //delete MUX configuration for changing to another channel
-  ADMUX &= ~((1 << MUX0)|(1 << MUX1)|(1 << MUX2));
-  ADCSRB &= ~(1 << MUX5);
+  //Leave things like we found them
+  ADMUX = oldADMUX;
+  ADCSRB = oldADCSRB;
+  
 
   return ADC;
 #elif defined(__MSP430G2452__) || defined(__MSP430G2553__) || defined(__MSP430G2231__) 
@@ -108,6 +122,9 @@ unsigned int getTemperature()
 
 #elif defined( __AVR_ATmega328P__) || defined( __AVR_ATmega168P__) || defined( __AVR_ATmega328__) || defined( __AVR_ATmega168__)
   unsigned int wADC;
+  
+  unsigned char oldADCSRA = ADCSRA;
+unsigned char oldADMUX = ADMUX;
   ADMUX = (_BV(REFS1) | _BV(REFS0) | _BV(MUX3));
   ADCSRA |= _BV(ADEN);  // enable the ADC
 
@@ -120,6 +137,10 @@ unsigned int getTemperature()
 
   // Reading register "ADCW" takes care of how to read ADCL and ADCH.
   wADC = ADCW;
+  
+  //Leave things like we found them
+  ADMUX = oldADMUX;
+  
   return(wADC);
 #else
 #warning "Your processor either has no temperature sensor or it is not supported by this library. Entropy may be extremely poor"
